@@ -124,32 +124,6 @@
 
 ---
 
-# 📊 GitHub Analytics
-
-<p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=aditya157451&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&bg_color=0D1117&title_color=8B5CF6&icon_color=6366F1" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=aditya157451&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=8B5CF6" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=aditya157451&theme=tokyonight&hide_border=true&background=0D1117&ring=8B5CF6&fire=6366F1" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=aditya157451&theme=tokyo-night&hide_border=true&bg_color=0D1117&color=8B5CF6&line=6366F1&point=ffffff" width="100%"/>
-</p>
-
-<p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=aditya157451&theme=tokyonight&no-frame=true&row=1&column=7&margin-w=8" />
-</p>
-
-<!-- ================= ANIMATED CONTRIBUTION SNAKE ================= -->
-<p align="center">
-  <img src="https://raw.githubusercontent.com/aditya157451/aditya157451/output/github-contribution-grid-snake-dark.svg" width="100%"/>
-</p>
-
-> ⚙️ **Snake animation setup:** this needs a one-time GitHub Actions workflow (`Platane/snk`) in your profile repo to auto-generate the snake SVG from your contribution graph. See the setup note at the bottom of this file.
-
 ---
 
 # 💼 Experience
