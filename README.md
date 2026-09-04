@@ -101,8 +101,6 @@
 ---
 
 
-> ⚙️ **Snake animation setup:** this needs a one-time GitHub Actions workflow (`Platane/snk`) in your profile repo to auto-generate the snake SVG from your contribution graph. See the setup note at the bottom of this file.
-
 ---
 
 # 💼 Experience
