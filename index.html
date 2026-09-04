@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Kumar — Backend Engineer</title>
+<meta name="description" content="Aditya Kumar — Backend engineer building Python/FastAPI systems, React/Next.js interfaces, and RAG-powered AI applications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0704;
+    --bg-2:#050302;
+    --panel: rgba(12,9,5,.74);
+    --surface:#151006;
+    --text:#e6e7eb;
+    --muted:#a89a80;
+    --gold:#d4a24e;
+    --gold-dim: rgba(212,162,78,.35);
+    --cyan:#5eead4;
+    --line: rgba(212,162,78,.14);
+    --display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 600px at 50% 0%, rgba(212,162,78,.10), transparent 60%),
+      radial-gradient(ellipse 1000px 700px at 100% 100%, rgba(212,162,78,.05), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:var(--display);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    cursor:crosshair;
+  }
+
+  a, button, .btn{cursor:pointer;}
+
+  a{color:inherit;}
+
+  ::selection{background:var(--gold-dim); color:#fff;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px clamp(20px,5vw,56px);
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--muted);
+    background:linear-gradient(to bottom, rgba(8,6,3,.85), transparent);
+  }
+  header.nav .mark{
+    color:var(--text);
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  header.nav .mark span{color:var(--gold);}
+  header.nav nav{display:flex; gap:28px;}
+  header.nav nav a{
+    text-decoration:none;
+    color:var(--muted);
+    transition:color .2s ease;
+    position:relative;
+  }
+  header.nav nav a:hover{color:var(--text);}
+  @media (max-width:560px){
+    header.nav nav{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    width:100%;
+    height:100svh;
+    min-height:560px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    text-align:center;
+    padding:24px;
+  }
+  #network{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    z-index:0;
+    pointer-events:none;
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    pointer-events:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    max-width:780px;
+  }
+  .hero-content .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--gold);
+    letter-spacing:.04em;
+    opacity:0;
+    animation:rise .7s ease forwards;
+    animation-delay:.1s;
+  }
+  .hero-content h1{
+    font-family:var(--display);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-.01em;
+    font-size:clamp(2.6rem, 8vw, 5.6rem);
+    line-height:.98;
+    color:#fff;
+    opacity:0;
+    animation:rise .8s ease forwards;
+    animation-delay:.25s;
+  }
+  .hero-content .tagline{
+    font-family:var(--mono);
+    font-size:clamp(13px,1.6vw,15px);
+    color:var(--muted);
+    max-width:520px;
+    line-height:1.7;
+    opacity:0;
+    animation:rise .8s ease forwards;
+    animation-delay:.45s;
+  }
+  .hero-actions{
+    display:flex;
+    gap:14px;
+    margin-top:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    pointer-events:auto;
+    opacity:0;
+    animation:rise .8s ease forwards;
+    animation-delay:.65s;
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:.02em;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:background .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:#0a0a0a;
+    border:1px solid var(--gold);
+    font-weight:600;
+  }
+  .btn-primary:hover{background:#e2b569; transform:translateY(-1px);}
+  .btn-ghost{
+    background:rgba(255,255,255,.04);
+    color:var(--text);
+    border:1px solid rgba(255,255,255,.14);
+    backdrop-filter:blur(8px);
+  }
+  .btn-ghost:hover{border-color:var(--gold-dim); background:rgba(212,162,78,.08);}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:28px; left:50%;
+    transform:translateX(-50%);
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    opacity:0;
+    animation:rise .8s ease forwards;
+    animation-delay:.9s;
+  }
+  .scroll-cue .stem{
+    width:1px; height:34px;
+    background:linear-gradient(to bottom, var(--gold), transparent);
+    animation:stem-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes rise{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @keyframes stem-pulse{
+    0%,100%{opacity:.4;}
+    50%{opacity:1;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-content .eyebrow, .hero-content h1, .hero-content .tagline, .hero-actions, .scroll-cue{
+      animation:none; opacity:1;
+    }
+    .scroll-cue .stem{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- CONTENT ---------- */
+  main{
+    position:relative;
+    z-index:1;
+    max-width:808px;
+    margin:0 auto;
+    padding:64px 24px 120px;
+    background:var(--panel);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+  section{
+    padding:96px 0 0;
+    scroll-margin-top:90px;
+  }
+  section:first-of-type{padding-top:0;}
+  section h2{
+    font-family:var(--display);
+    font-size:22px;
+    font-weight:600;
+    color:#fff;
+    margin-bottom:28px;
+  }
+  section p{
+    color:var(--muted);
+    font-size:15.5px;
+    line-height:1.8;
+    max-width:64ch;
+  }
+  section p + p{margin-top:14px;}
+
+  /* About */
+  #about p{color:#c7cad1;}
+  #about p em{color:var(--gold); font-style:normal;}
+
+  /* Experience */
+  .job{
+    border-left:2px solid var(--gold-dim);
+    padding-left:24px;
+    position:relative;
+  }
+  .job::before{
+    content:"";
+    position:absolute;
+    left:-6px; top:6px;
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--gold);
+  }
+  .job .role{
+    font-weight:600;
+    font-size:16.5px;
+    color:#fff;
+  }
+  .job .org{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--gold);
+    margin-top:4px;
+  }
+  .job ul{
+    margin-top:16px;
+    color:var(--muted);
+    font-size:14.5px;
+    line-height:1.9;
+    padding-left:18px;
+  }
+  .job li{margin-bottom:4px;}
+  .job li::marker{color:var(--gold-dim);}
+
+  /* Stack */
+  .stack-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:32px 40px;
+  }
+  @media (max-width:520px){
+    .stack-grid{grid-template-columns:1fr;}
+  }
+  .stack-cat h3{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--gold);
+    text-transform:lowercase;
+    letter-spacing:.02em;
+    margin-bottom:12px;
+  }
+  .stack-cat ul{list-style:none;}
+  .stack-cat li{
+    color:#c7cad1;
+    font-size:14.5px;
+    padding:5px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .stack-cat li:last-child{border-bottom:none;}
+
+  /* Projects */
+  .project{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    transition:padding-left .25s ease, border-color .25s ease;
+    position:relative;
+  }
+  .project:last-child{border-bottom:1px solid var(--line);}
+  .project:hover{
+    padding-left:14px;
+    border-color:var(--gold-dim);
+  }
+  .project:hover::before{
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:2px;
+    background:var(--gold);
+  }
+  .project .p-title{
+    font-weight:600;
+    font-size:16px;
+    color:#fff;
+  }
+  .project .p-stack{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--cyan);
+    opacity:.85;
+  }
+  .project .p-desc{
+    color:var(--muted);
+    font-size:14.5px;
+    line-height:1.75;
+    max-width:60ch;
+  }
+
+  /* Contact */
+  #contact{
+    padding-bottom:0;
+  }
+  #contact .big-line{
+    font-family:var(--display);
+    font-size:clamp(1.6rem, 4vw, 2.3rem);
+    font-weight:600;
+    color:#fff;
+    max-width:14ch;
+    line-height:1.25;
+  }
+  .contact-links{
+    margin-top:28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 26px;
+  }
+  .contact-links a{
+    font-family:var(--mono);
+    font-size:14px;
+    text-decoration:none;
+    color:var(--muted);
+    padding-bottom:4px;
+    border-bottom:1px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .contact-links a:hover{
+    color:var(--gold);
+    border-color:var(--gold);
+  }
+
+  footer{
+    position:relative;
+    z-index:1;
+    padding:28px 24px 48px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    background:var(--panel);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    max-width:808px;
+    margin:0 auto;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="network"></canvas>
+
+<header class="nav">
+  <div class="mark">aditya<span>.</span>kumar</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#stack">Stack</a>
+    <a href="#projects">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="eyebrow">Backend engineer &amp; AI builder</div>
+    <h1>Aditya Kumar</h1>
+    <p class="tagline">python + fastapi backend systems, react / next.js interfaces, and retrieval-augmented AI applications that hold up under real use.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">See my work</a>
+      <a href="mailto:your-aditya157451@gmail.com" class="btn btn-ghost">Say hello</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>scroll</span><span class="stem"></span></div>
+</section>
+
+<main>
+
+  <section id="about">
+    <h2>About</h2>
+    <p>I'm a backend engineer and CS graduate who likes building systems that hold up under real use — REST APIs that stay fast under load, data pipelines that don't silently fail, and AI features that give <em>useful</em> answers instead of impressive-sounding ones.</p>
+    <p>Most of my time lately splits between FastAPI backends, React and Next.js interfaces, and retrieval-augmented generation systems — including one that works across Hindi, English, and Hinglish. I'm currently looking for roles as a software engineer, backend developer, or full-stack developer.</p>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+    <div class="job">
+      <div class="role">Python Backend Developer Intern</div>
+      <div class="org">Neewee Analytics Pvt. Ltd.</div>
+      <ul>
+        <li>Developed backend functionality using Python and REST APIs</li>
+        <li>Built and maintained FastAPI-based backend services</li>
+        <li>Worked with Firestore and Google Cloud services</li>
+        <li>Tested and debugged APIs using Postman</li>
+        <li>Used Git for version control and collaborative development</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2>Stack</h2>
+    <div class="stack-grid">
+      <div class="stack-cat">
+        <h3>languages</h3>
+        <ul>
+          <li>Python</li>
+          <li>C++</li>
+          <li>Java</li>
+          <li>JavaScript / TypeScript</li>
+        </ul>
+      </div>
+      <div class="stack-cat">
+        <h3>backend</h3>
+        <ul>
+          <li>FastAPI</li>
+          <li>REST APIs</li>
+          <li>Pydantic</li>
+          <li>Uvicorn</li>
+        </ul>
+      </div>
+      <div class="stack-cat">
+        <h3>frontend</h3>
+        <ul>
+          <li>React.js</li>
+          <li>Next.js</li>
+          <li>HTML / CSS</li>
+        </ul>
+      </div>
+      <div class="stack-cat">
+        <h3>data &amp; cloud</h3>
+        <ul>
+          <li>PostgreSQL / MySQL</li>
+          <li>MongoDB / Firebase</li>
+          <li>Docker</li>
+          <li>Google Cloud Platform</li>
+        </ul>
+      </div>
+      <div class="stack-cat">
+        <h3>ai / ml</h3>
+        <ul>
+          <li>LangChain</li>
+          <li>FAISS</li>
+          <li>Retrieval-augmented generation</li>
+          <li>LLM APIs</li>
+        </ul>
+      </div>
+      <div class="stack-cat">
+        <h3>tools</h3>
+        <ul>
+          <li>Git / GitHub</li>
+          <li>Postman</li>
+          <li>Linux</li>
+          <li>VS Code</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Selected work</h2>
+
+    <div class="project">
+      <div class="p-title">Multilingual cross-lingual RAG system</div>
+      <div class="p-stack">Python · FastAPI · FAISS · Docker · LLM APIs</div>
+      <div class="p-desc">Semantic search and retrieval-augmented generation across Hindi, English, and Hinglish, with multilingual embeddings, language detection, and relevance ranking behind a FastAPI service.</div>
+    </div>
+
+    <div class="project">
+      <div class="p-title">NComputing e-commerce application</div>
+      <div class="p-stack">React.js · FastAPI · PostgreSQL · SQLAlchemy</div>
+      <div class="p-desc">A full-stack product purchasing app with cart management and checkout, backed by a FastAPI + PostgreSQL service layer and deployed end to end.</div>
+    </div>
+
+    <div class="project">
+      <div class="p-title">Customer churn prediction dashboard</div>
+      <div class="p-stack">Python · scikit-learn · FastAPI · Dash · Plotly</div>
+      <div class="p-desc">Logistic regression and random forest models serving churn predictions through an interactive Dash dashboard, wired up behind a FastAPI backend.</div>
+    </div>
+
+    <div class="project">
+      <div class="p-title">Bank management system</div>
+      <div class="p-stack">Python · OOP</div>
+      <div class="p-desc">An object-oriented banking application handling account creation, deposits, withdrawals, and PIN management.</div>
+    </div>
+
+    <div class="project">
+      <div class="p-title">Astrology website</div>
+      <div class="p-stack">HTML · CSS · JavaScript</div>
+      <div class="p-desc">A responsive site with interactive, JavaScript-driven features across a fully custom layout.</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="big-line">Open to backend and full-stack roles.</div>
+    <div class="contact-links">
+      <a href="mailto:your-aditya157451@gmail.com">Email</a>
+      <a href="https://github.com/aditya157451" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/aditya157451/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>Built by Aditya Kumar</footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('network');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let w, h, dpr;
+  let nodes = [];
+  let mouse = { x: null, y: null, active: false };
+
+  const NODE_COUNT_BASE = 50; // per 1,000,000 px^2, scaled below
+  const LINK_DIST = 130;
+  const MOUSE_DIST = 170;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    initNodes();
+  }
+
+  function initNodes(){
+    const area = w * h;
+    const count = Math.round((area / 1000000) * NODE_COUNT_BASE) + 20;
+    nodes = [];
+    for(let i=0;i<count;i++){
+      nodes.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.25,
+        vy: (Math.random()-0.5)*0.25,
+        r: Math.random()*1.4 + 0.6
+      });
+    }
+  }
+
+  function drawCrosshair(x, y){
+    ctx.save();
+    ctx.strokeStyle = 'rgba(212,162,78,.55)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x-14, y); ctx.lineTo(x-4, y);
+    ctx.moveTo(x+4, y); ctx.lineTo(x+14, y);
+    ctx.moveTo(x, y-14); ctx.lineTo(x, y-4);
+    ctx.moveTo(x, y+4); ctx.lineTo(x, y+14);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(94,234,212,.7)';
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,w,h);
+
+    // update + draw nodes
+    for(const n of nodes){
+      if(!reduceMotion){
+        n.x += n.vx;
+        n.y += n.vy;
+        if(n.x < 0 || n.x > w) n.vx *= -1;
+        if(n.y < 0 || n.y > h) n.vy *= -1;
+      }
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(230,231,235,.55)';
+      ctx.fill();
+    }
+
+    // node-node links
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x-b.x, dy = a.y-b.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < LINK_DIST){
+          const alpha = (1 - dist/LINK_DIST) * 0.14;
+          ctx.strokeStyle = `rgba(94,234,212,${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // mouse links + crosshair
+    if(mouse.active){
+      for(const n of nodes){
+        const dx = n.x-mouse.x, dy = n.y-mouse.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < MOUSE_DIST){
+          const alpha = (1 - dist/MOUSE_DIST) * 0.5;
+          ctx.strokeStyle = `rgba(212,162,78,${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+      drawCrosshair(mouse.x, mouse.y);
+    }
+
+    if(!reduceMotion){
+      requestAnimationFrame(frame);
+    }
+  }
+
+  window.addEventListener('mousemove', (e)=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+    if(reduceMotion) frame();
+  });
+  document.addEventListener('mouseleave', ()=>{
+    mouse.active = false;
+    if(reduceMotion) frame();
+  });
+  window.addEventListener('touchmove', (e)=>{
+    const t = e.touches[0];
+    if(t){
+      mouse.x = t.clientX;
+      mouse.y = t.clientY;
+      mouse.active = true;
+    }
+  }, {passive:true});
+
+  window.addEventListener('resize', ()=>{
+    resize();
+    if(reduceMotion) frame();
+  });
+
+  resize();
+  if(reduceMotion){
+    frame();
+  } else {
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+
+</body>
+</html>
